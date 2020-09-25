@@ -1,11 +1,32 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes} from '@angular/router';
 
+import { HomeComponent } from './home/home.component';
+import { HomeEmpComponent } from './home-emp/home-emp.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+	{
+		path: '',
+		redirectTo: '/home',
+		pathMatch: 'full'
+	},{
+		path: 'empaudaz',
+		component: HomeEmpComponent
+	},{
+		path: 'home',
+		component: HomeComponent
+	}
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+		routes,{
+			useHash:true,
+			// enableTracing: true,
+			scrollPositionRestoration: 'enabled'
+		})
+	],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

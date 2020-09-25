@@ -41,6 +41,16 @@ yarn-error.log
 testem.log
 /typings
 
+
 # System Files
 .DS_Store
 Thumbs.db
+
+# Docker config
+Dockerfile
+**/Dockerfile
+*.Dockerfile
+
+# End of https://www.gitignore.io/api/node,angular
+nginx.conf
+**/nginx.conf
