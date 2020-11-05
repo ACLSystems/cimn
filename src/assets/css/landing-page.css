@@ -177,33 +177,34 @@ a:focus, a:active {
 }
 
 .btn-success {
-  border-color: #3ABE41;
-  color: #3ABE41;
+  /* border-color: #3ABE41; */
+	border-color: green;
+  color: green;
 }
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open > .btn-success.dropdown-toggle {
-  background-color: transparent;
-  color: #3ABE41;
-  border-color: #34aa3a;
+  /* background-color: transparent; */
+  color: green;
+  border-color: green;
 }
 .btn-success:disabled, .btn-success[disabled], .btn-success.disabled {
   background-color: transparent;
-  border-color: #3ABE41;
+  border-color: green;
 }
 .btn-success.btn-fill {
   color: white;
-  background-color: #3ABE41;
+  background-color: green;
   opacity: 1;
   filter: alpha(opacity=100);
 }
 .btn-success.btn-fill:hover, .btn-success.btn-fill:focus, .btn-success.btn-fill:active, .btn-success.btn-fill.active, .open > .btn-success.btn-fill.dropdown-toggle {
-  background-color: #34aa3a;
+  background-color: green;
   color: white;
 }
 .btn-success.btn-fill .caret {
   border-top-color: white;
 }
 .btn-success .caret {
-  border-top-color: #3ABE41;
+  border-top-color: green;
 }
 
 .btn-info {
@@ -869,13 +870,13 @@ a:focus, a:active {
 }
 
  .header-text{
-      text-transform: uppercase;
-      font-weight: 200;
-      color: #333;
-      margin-bottom: 20px;
-      font-size: 30px;
-      position: relative;
-      line-height: 24px;
+  text-transform: uppercase;
+  font-weight: 200;
+  color: #114C7F;
+  margin-bottom: 20px;
+  font-size: 30px;
+  position: relative;
+  line-height: 24px;
 }
 
 .landing-page .navbar-top {

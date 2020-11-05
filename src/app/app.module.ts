@@ -7,6 +7,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { HomeEmpComponent } from './home-emp/home-emp.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { ComoingresosComponent } from './comoingresos/comoingresos.component';
+import { GraciasingresosComponent } from './graciasingresos/graciasingresos.component';
+import { SafePipe } from './shared/pipes/video.pipe';
 
 @NgModule({
   declarations: [
@@ -14,7 +18,11 @@ import { HomeEmpComponent } from './home-emp/home-emp.component';
     NavbarComponent,
     FooterComponent,
     HomeComponent,
-    HomeEmpComponent
+    HomeEmpComponent,
+    PrivacyComponent,
+    ComoingresosComponent,
+    GraciasingresosComponent,
+		SafePipe
   ],
   imports: [
     BrowserModule,

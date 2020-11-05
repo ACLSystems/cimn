@@ -6,6 +6,10 @@ import {
 	NavigationEnd
 } from '@angular/router';
 
+declare let gtag:Function;
+declare let fbq:Function;
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -30,6 +34,8 @@ export class AppComponent {
 				} else if(event instanceof NavigationEnd) {
 					// console.log('Terminando navegación');
 					this.navigate = false;
+					gtag('config','UA-109066795-1',{'page_path' : event.url});
+        	fbq('track', 'PageView');
 				}
 			});
 	}
