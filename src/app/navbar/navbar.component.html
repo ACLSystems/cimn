@@ -1,42 +1,43 @@
-<div class="container">
-	<div class="row">
-		<div class="col mx-auto">
-			<nav class="navbar navbar-expand-lg navbar-light p-0" style="background:white;">
-				<a class="navbar-brand p-0" href="/#/home"><img src="assets/img/cimn-50.png" alt="Cómo iniciar mi negocio" width="50px;"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-					<ul class="navbar-nav float-right">
-						<li class="nav-item">
-							<a class="nav-link" [routerLink]="['home']" fragment="Servicios">Servicios</a>
-						</li>
-						<!-- <li class="nav-item">
-							<a class="nav-link" href="#">Recursos</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Contacto</a>
-						</li> -->
-						<li class="nav-item">
-							<a href="https://www.facebook.com/ComoIniciarmiNegocio/" class="btn btn-social btn-facebook btn-simple" target="_blank">
-							<i class="fab fa-facebook-square fa-2x" style="color: #3B5998;"></i>
-							</a>
-							<a href="https://wa.link/djd7t5" target="_blank" class="btn btn-social btn-simple">
-							<i class="fab fa-whatsapp-square fa-2x" style="color: #25D366;"></i>
-							</a>
-							<!-- <a href="https://www.youtube.com/channel/UCIclU0B1zGmgOuwY54xbpzA?view_as=subscriber" target="_blank" class="btn btn-social btn-simple">
-							<i class="fab fa-youtube fa-2x" style="color: red;"></i>
-							</a>
-							<a href="https://twitter.com/MscAmilcar?s=20" target="_blank" class="btn btn-social btn-simple">
-							<i class="fab fa-twitter fa-2x" style="color: #00ACEE;"></i>
-							</a>
-							<a href="https://www.instagram.com/mscamilcar/" target="_blank" class="btn btn-social btn-simple">
-							<i class="fab fa-instagram fa-2x" style="color: #3f729b;"></i>
-							</a> -->
-						</li>
-					</ul>
-				</div>
-			</nav>
+<nav class="navbar navbar-light bg-white navbar-expand-md p-0">
+	<div class="container">
+		<a class="navbar-brand" [routerLink]="['/home']">
+			<img src="assets/img/cimn-50.png" alt="Cómo iniciar mi negocio" width="36px;">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav1">
+			<ul class="navbar-nav mr-auto">
+				<!-- <li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li> -->
+				<li class="nav-item">
+					<a class="nav-link" [routerLink]="['/home']" fragment="Servicios">Servicios</a>
+				</li>
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="#">Pricing</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Team</a>
+				</li> -->
+			</ul>
+			<ul class="navbar-nav justify-content-end d-none d-lg-flex ml-md-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="https://wa.link/djd7t5">
+						<i class="fab fa-whatsapp"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://www.facebook.com/ComoIniciarmiNegocio/">
+						<i class="fab fa-facebook"></i>
+					</a>
+				</li>
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="#">
+						<i class="fab fa-github"></i>
+					</a>
+				</li> -->
+			</ul>
 		</div>
 	</div>
-</div>
+</nav>
