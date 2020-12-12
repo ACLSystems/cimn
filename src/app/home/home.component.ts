@@ -8,6 +8,9 @@ import {
 	ActivatedRoute,
 	NavigationEnd
 } from '@angular/router';
+import {
+	UserService
+} from '../shared/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -17,10 +20,12 @@ import {
 export class HomeComponent implements OnInit, AfterViewInit {
 
 	private fragment: string;
+	blog: any;
 
   constructor(
 		private router: Router,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private readonly userService: UserService
 	) {
 		this.router.events.subscribe(s => {
 			if(s instanceof NavigationEnd) {
@@ -36,7 +41,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 		this.route.fragment.subscribe(fragment => {
 			this.fragment = fragment;
-		})
+		});
+		this.getMainBlog();
   }
 
 	ngAfterViewInit() {
@@ -47,6 +53,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	goEmpAudaz() {
 		this.router.navigate(['/empaudaz'])
+	}
+
+	getMainBlog() {
+		this.userService.getMainPublicBlog().subscribe((data:any) => {
+			console.log(data);
+		}, error => {
+			if(error.status !== 404) {
+				console.log(error);
+			}
+		})
 	}
 
 }

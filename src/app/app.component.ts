@@ -5,6 +5,10 @@ import {
 	NavigationStart,
 	NavigationEnd
 } from '@angular/router';
+import {
+	UserService
+} from './shared/services/user.service';
+import jwt_decode from 'jwt-decode';
 
 declare let gtag:Function;
 declare let fbq:Function;
@@ -21,7 +25,8 @@ export class AppComponent {
 	navigate: boolean = false;
 
 	constructor(
-		private router: Router
+		private router: Router,
+		private readonly userService: UserService
 	) {
 		const siteName = document.location.hostname;
 		if(siteName.includes('emprendedor')) {
@@ -38,7 +43,61 @@ export class AppComponent {
         	fbq('track', 'PageView');
 				}
 			});
+			const token = localStorage.getItem('token');
+			if(token) {
+				var exp:any = localStorage.getItem('exp');
+				if(exp){
+					exp = new Date(exp);
+					const now = new Date();
+					if(now.getTime() > exp.getTime()) {
+						console.log('EXPIRADO!');
+						localStorage.removeItem('token');
+						localStorage.removeItem('exp');
+						localStorage.removeItem('roles');
+					} else {
+						console.log('Token vigente');
+					}
+				}
+				const token_decoded = this.getDecodedAccessToken(token);
+				var expiration = new Date(token_decoded.exp*1000);
+				// console.group('Token');
+				// console.log(token_decoded);
+				// console.log(expiration);
+				// console.groupEnd();
+				localStorage.setItem('username',token_decoded.username);
+				localStorage.setItem('sub',token_decoded.sub);
+				localStorage.setItem('exp',expiration.toString());
+				const roles = JSON.parse(localStorage.getItem('roles'));
+				if(!roles) {
+					this.getProfile();
+				} else {
+					const exp = new Date(roles.exp);
+					const now = new Date();
+					if(now.getTime() > exp.getTime()) {
+						this.getProfile();
+					}
+				}
+			}
 	}
 
+	getDecodedAccessToken(token: string): any {
+		try {
+			return jwt_decode(token);
+		} catch (err)  {
+			return null;
+		}
+	}
+
+	getProfile() {
+		this.userService.getUserProfile().subscribe((data:any) => {
+			data.roles.exp = new Date();
+			data.roles.exp.setTime(data.roles.exp.getTime() + 3600 * 1000);
+			localStorage.setItem('roles',JSON.stringify(data.roles));
+			return true;
+		}, error => {
+			console.log(error);
+			return null;
+		});
+	}
 
 }

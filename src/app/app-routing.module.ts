@@ -6,6 +6,8 @@ import { HomeEmpComponent } from './home-emp/home-emp.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { ComoingresosComponent } from './comoingresos/comoingresos.component';
 import { GraciasingresosComponent } from './graciasingresos/graciasingresos.component';
+import { LoginComponent } from './login/login.component';
+import { LandingComponent } from './landing/landing.component';
 
 const routes: Routes = [
 	{
@@ -27,6 +29,27 @@ const routes: Routes = [
 	},{
 		path: 'privacy',
 		component: PrivacyComponent
+	},{
+		path: 'login',
+		component: LoginComponent
+	},{
+		path: '',
+		component: LandingComponent,
+		children: [
+			{
+				path: 'landing',
+				loadChildren: () => import('./landing/landing.module').then(mod => mod.LandingModule)
+			}
+		]
+	},{
+		path: '',
+		component: LandingComponent,
+		children: [
+			{
+				path: 'blogs',
+				loadChildren: () => import('./blogs/blogs.module').then(mod => mod.BlogsModule)
+			}
+		]
 	}
 ];
 

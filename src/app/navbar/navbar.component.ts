@@ -10,6 +10,9 @@ declare const $:any;
 })
 export class NavbarComponent implements OnInit {
 
+	roles: any;
+	token: string;
+
   constructor(
 		private router: Router
 	) { }
@@ -41,6 +44,12 @@ export class NavbarComponent implements OnInit {
 		  }
 		});
 
+		this.getRoles();
   }
+
+	getRoles(){
+		this.roles = JSON.parse(localStorage.getItem('roles'));
+		this.token = localStorage.getItem('token');
+	}
 
 }
