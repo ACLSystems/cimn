@@ -41,15 +41,15 @@ const routes: Routes = [
 				loadChildren: () => import('./landing/landing.module').then(mod => mod.LandingModule)
 			}
 		]
-	},{
-		path: '',
-		component: LandingComponent,
-		children: [
-			{
-				path: 'blogs',
-				loadChildren: () => import('./blogs/blogs.module').then(mod => mod.BlogsModule)
-			}
-		]
+	// },{
+	// 	path: '',
+	// 	component: LandingComponent,
+	// 	children: [
+	// 		{
+	// 			path: 'blogs',
+	// 			loadChildren: () => import('./blogs/blogs.module').then(mod => mod.BlogsModule)
+	// 		}
+	// 	]
 	}
 ];
 
