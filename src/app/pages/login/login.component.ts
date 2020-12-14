@@ -7,11 +7,7 @@ import {
 import Swal from 'sweetalert2';
 import {
 	UserService
-} from '../shared/services/user.service';
-
-export interface Identity {
-
-}
+} from '@shared';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +18,6 @@ export class LoginComponent implements OnInit {
 
 	loading: boolean = false;
 	token: string;
-	identity: Identity;
 	loginForm = this.fb.group({
 		username: ['', [
 			Validators.required
@@ -75,7 +70,7 @@ export class LoginComponent implements OnInit {
 					html: '<p>Ingreso exitoso</p>'
 				})
 			}
-			this.router.navigate(['/home']);
+			this.router.navigate(['/pages/home']);
 		}, error => {
 			console.log(error);
 			Swal.hideLoading();

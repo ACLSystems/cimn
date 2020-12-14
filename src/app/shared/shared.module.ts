@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import {
+	FooterComponent,
+	NavbarComponent
+} from './components';
 
 import {
 	DateAgoPipe,
@@ -11,18 +16,24 @@ import {
 
 @NgModule({
   declarations: [
+		FooterComponent,
+		NavbarComponent,
 		DateAgoPipe,
 		SafePipe
 	],
   imports: [
-    CommonModule
+    CommonModule,
+		RouterModule
   ],
 	providers: [
 		UserService
 	],
 	exports: [
+		CommonModule,
 		DateAgoPipe,
-		SafePipe
+		SafePipe,
+		FooterComponent,
+		NavbarComponent
 	]
 })
 export class SharedModule { }

@@ -10,7 +10,7 @@ import {
 } from '@angular/router';
 import {
 	UserService
-} from '../shared/services/user.service';
+} from '@shared';
 
 @Component({
   selector: 'app-home',

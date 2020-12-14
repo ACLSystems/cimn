@@ -1,37 +1,51 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { HomeEmpComponent } from './home-emp/home-emp.component';
-import { PrivacyComponent } from './privacy/privacy.component';
-import { ComoingresosComponent } from './comoingresos/comoingresos.component';
-import { GraciasingresosComponent } from './graciasingresos/graciasingresos.component';
-import { LoginComponent } from './login/login.component';
-import { LandingComponent } from './landing/landing.component';
+import {
+	PagesComponent
+} from './layouts/pages/pages.component';
+import {
+	LandingComponent
+} from './layouts/landing/landing.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		redirectTo: '/home',
+		redirectTo: '/pages/home',
 		pathMatch: 'full'
 	},{
-		path: 'comoingresos',
-		component: ComoingresosComponent
-	},{
-		path: 'graciasingresos',
-		component: GraciasingresosComponent
+		path: 'home',
+		redirectTo: '/pages/home',
+		pathMatch: 'full'
 	},{
 		path: 'empaudaz',
-		component: HomeEmpComponent
-	},{
-		path: 'home',
-		component: HomeComponent
+		redirectTo: '/pages/empaudaz',
+		pathMatch: 'full'
 	},{
 		path: 'privacy',
-		component: PrivacyComponent
+		redirectTo: '/pages/privacy',
+		pathMatch: 'full'
 	},{
 		path: 'login',
-		component: LoginComponent
+		redirectTo: '/pages/login',
+		pathMatch: 'full'
+	},{
+		path: '',
+		component: PagesComponent,
+		children: [
+			{
+				path: 'pages',
+				loadChildren: () => import('./pages/pages.module').then(mod => mod.PagesModule)
+			}
+		]
+	},{
+		path: 'comoingresos',
+		redirectTo: '/landing/comoingresos',
+		pathMatch: 'full'
+	},{
+		path: 'graciasingresos',
+		redirectTo: '/landing/graciasingresos',
+		pathMatch: 'full'
 	},{
 		path: '',
 		component: LandingComponent,
@@ -50,19 +64,27 @@ const routes: Routes = [
 	// 			loadChildren: () => import('./blogs/blogs.module').then(mod => mod.BlogsModule)
 	// 		}
 	// 	]
-	}
+}, {
+	path: '**',
+	redirectTo: '/pages/notfound',
+	pathMatch: 'full'
+}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(
-		routes,{
-    useHash: true,
-    // enableTracing: true,
-    scrollPositionRestoration: 'enabled',
-    relativeLinkResolution: 'legacy'
-})
+  imports: [
+		RouterModule.forRoot(
+			routes,{
+		    useHash: true,
+		    // enableTracing: true,
+		    scrollPositionRestoration: 'enabled',
+		    relativeLinkResolution: 'legacy'
+			}
+		)
 	],
-  exports: [RouterModule]
+  exports: [
+		RouterModule
+	]
 })
 
 export class AppRoutingModule { }
