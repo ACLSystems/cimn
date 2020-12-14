@@ -6,8 +6,9 @@ import {
 	NavigationEnd
 } from '@angular/router';
 import {
-	UserService
-} from './shared/services/user.service';
+	UserService,
+	Roles
+} from '@shared';
 import jwt_decode from 'jwt-decode';
 
 declare let gtag:Function;
@@ -43,17 +44,14 @@ export class AppComponent {
         	fbq('track', 'PageView');
 				}
 			});
-			const token = localStorage.getItem('token');
+			const token:string = this.userService.getToken();
 			if(token) {
-				var exp:any = localStorage.getItem('exp');
+				var exp: Date = this.userService.getExpiration();
 				if(exp){
-					exp = new Date(exp);
 					const now = new Date();
 					if(now.getTime() > exp.getTime()) {
 						console.log('EXPIRADO!');
-						localStorage.removeItem('token');
-						localStorage.removeItem('exp');
-						localStorage.removeItem('roles');
+						this.userService.removeProfile();
 					} else {
 						console.log('Token vigente');
 					}
@@ -67,7 +65,7 @@ export class AppComponent {
 				localStorage.setItem('username',token_decoded.username);
 				localStorage.setItem('sub',token_decoded.sub);
 				localStorage.setItem('exp',expiration.toString());
-				const roles = JSON.parse(localStorage.getItem('roles'));
+				const roles: Roles = this.userService.getRoles();
 				if(!roles) {
 					this.getProfile();
 				} else {
@@ -92,7 +90,7 @@ export class AppComponent {
 		this.userService.getUserProfile().subscribe((data:any) => {
 			data.roles.exp = new Date();
 			data.roles.exp.setTime(data.roles.exp.getTime() + 3600 * 1000);
-			localStorage.setItem('roles',JSON.stringify(data.roles));
+			this.userService.setRoles(data.roles);
 			return true;
 		}, error => {
 			console.log(error);

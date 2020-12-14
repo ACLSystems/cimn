@@ -1,0 +1,119 @@
+<section class="pt-5 pb-5">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-10 col-lg-8">
+				<article class="pb-2">
+					<h1 class="text-center">¿Por qué la importancia de Educarse Financieramente?</h1>
+					<p class="small mb-5 text-center"><span class="text-secondary">por Amilcar Bravo</span></p>
+					<p class="lead text-justify">El dinero para muchos es algo que están persiguiendo y que les consume mucha energía. </p>
+					<p>Has escuchado frases como: </p>
+					<ul class="unstyled-list">
+						<li class="list-item">
+							“Deseo que ya sea quincena para que me paguen”
+						</li>
+						<li class="list-item">
+							“Me sobran más días que quincena” o bien
+						</li>
+						<li class="list-item">
+							“Me prestas para poder completar la quincena”
+						</li>
+					</ul>
+					<p class="text-justify">Son frases comunes que se han hecho normales. Sin embargo, no es normal que no te alcance, no es normal que vivas con deudas y sufriendo por no poder cubrir tus gastos. </p>
+					<figure class="figure mt-2">
+						<img src="https://source.unsplash.com/aX1hN4uNd-I/1920x1280" class="img-fluid shadow" alt="alt image text">
+						<figcaption class="figure-caption p-2 text-center">photo by Bermix Studio @bermixstudio</figcaption>
+					</figure>
+					<p class="text-justify">Por ello educarse financieramente te da los siguientes beneficios. </p>
+					<ol>
+						<li>
+							<h4>Ahorro de energía</h4>
+							<p class="text-justify">La energía es vital para poder desarrollarte, trabajar, vivir tranquilo y poder pensar, hacer y ser feliz. </p>
+							<p class="text-justify">Vivir tranquilo y sabiendo que tienes resuelto tema de comida, vestido, techo te permitirá invertir tu energía, tus pensamientos en tu profesión, en tu familia, en tus negocios. </p>
+						</li>
+						<li>
+							<h4>Resuelves tus deudas</h4>
+							<p class="text-justify">Gracias a que sabes cuánto ingresas, cuánto puedes gastar tienes la posibilidad de resolver tus problemas de deudas destructivas. </p>
+						</li>
+						<li>
+							<h4>Ahorras</h4>
+							<p class="text-justify">Una vez que has resuelto tus deudas destructivas, ahora cuentas con dinero que podrás ahorrar, inicialmente en una cuenta bancaría para posteriormente invertir. Considera ahorrar de manera inicial un 10% de tus ingresos.</p>
+						</li>
+						<li>
+							<h4>Inviertes</h4>
+							<p class="text-justify">Con el capital que has reunido considéralo como un capital semilla para poder invertir de acuerdo a tu objetivo financiero.  El objetivo financiero puedo ser a corto, mediano o bien largo plazo.</p>
+							<p class="text-justify">Sin objetivos financieros claros será complejo el poder hacer crecer tu dinero.</p>
+						</li>
+						<li>
+							<h4>Disfrutas tu estilo de vida</h4>
+							<p class="text-justify">El saber cuánto ingresas, cuanto gastas te dará la tranquilidad que te mereces. Para ello educarse financieramente se convierte en una parte importante que impactará tu vida de modo integral, salud, familia, bienestar emocional, físico, espiritual. </p>
+						</li>
+					</ol>
+					<p class="text-justify">Para ayudarte a controlar tus finanzas el primer paso es saber dónde te encuentras, así que deseo obsequiarte un formato de Presupuesto Mensual, con el cual podrás conocer cuáles son tus gastos, tus compromisos y así iniciar con tu proceso de educación financiera. </p>
+					<p class="text-justify">Te felicito por tomar acción de manera inmediata para saber dónde te encuentras financieramente.</p>
+				</article>
+				<div class="row d-flex justify-content-center">
+					<hr class=" border-primary w-25 align-self-center">
+				</div>
+				<div class="py-5">
+					<form [formGroup]="registerForm">
+						<div class="form-group row">
+							<div class="col">
+								<label for="inputFirstName" class="small">Tu nombre</label>
+								<input
+									type="text"
+									id="inputFirstName"
+									class="form-control"
+									formControlName="firstName"
+									>
+								<small
+									class="text-danger"
+									*ngIf="firstName.touched && firstName.errors">
+									Por favor, danos tu nombre
+								</small>
+							</div>
+							<div class="col">
+								<label for="inputLastName" class="small">Tu(s) apellido(s)</label>
+								<input
+									type="text"
+									id="inputLastName"
+									class="form-control"
+									formControlName="lastName"
+									>
+								<small
+									class="text-danger"
+									*ngIf="lastName.touched && lastName.errors">
+									Por favor, danos tu apellido
+								</small>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label for="inputEmail" class="small">Tu dirección de correo eletrónico</label>
+								<input
+									type="email"
+									id="inputEmail"
+									class="form-control"
+									formControlName="email"
+									>
+								<small
+									class="text-danger"
+									*ngIf="email.touched && email.errors">
+									Por favor, ingresa una cuenta de correo válida
+								</small>
+							</div>
+						</div>
+						<div class="row mt-4">
+							<div class="col text-center">
+								<button
+									class="btn btn-pill btn-success"
+									(click)="register();"
+									>Quiero mi formato de Presupuesto Mensual
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
