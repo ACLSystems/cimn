@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-	url: 'http://localhost:4200',
-	apiUrl: 'http://localhost:3334'
+	url: 'https://www.como-iniciar-mi-negocio',
+	apiUrl: 'https://apicimn.aclsystems.mx'
 };
