@@ -1,4 +1,4 @@
-<section class="pt-5 pb-5">
+<section class="pt-5 pb-5" *ngIf="!file">
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-10 col-lg-8">
@@ -113,6 +113,26 @@
 						</div>
 					</form>
 				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="pt-5 pb-5" *ngIf="file">
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col col-md-6 text-center">
+				<h4>Gracias por registrarte. Ahora, por favor, descarga tu regalo presionando este botón:</h4>
+				<a
+					[attr.href]="download"
+					class="btn btn-success"
+					>
+					Descargar mi regalo
+				</a>
+			</div>
+		</div>
+		<div class="row justify-content-md-center">
+			<div class="col col-md-6 text-center">
+				<h4>Amilcar Bravo</h4>
 			</div>
 		</div>
 	</div>

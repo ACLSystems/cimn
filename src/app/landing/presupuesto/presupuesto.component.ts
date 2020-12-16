@@ -13,13 +13,13 @@ import {
 	FormControl
 } from '@angular/forms';
 import Swal from 'sweetalert2';
-
 import {
 	UserService
 } from '@shared';
 
 const THIS_URI = 'budget';
 const DOWNLOAD = 'https://www.dropbox.com/s/p8v5h3jm4v3ob1b/Formato%20Presupuesto%20Mensual%20CIMN_2020.pdf?dl=1';
+const FILENAME = 'prespuesto.pdf';
 
 @Component({
   selector: 'app-presupuesto',
@@ -28,6 +28,9 @@ const DOWNLOAD = 'https://www.dropbox.com/s/p8v5h3jm4v3ob1b/Formato%20Presupuest
 })
 export class PresupuestoComponent implements OnInit {
 
+	download: string = DOWNLOAD;
+	file: boolean = false;
+	fileName: string = FILENAME;
 	registerForm = this.fb.group({
 		firstName: ['',[
 			Validators.required
@@ -80,15 +83,7 @@ export class PresupuestoComponent implements OnInit {
 				Swal.close();
 				console.log(response);
 				if(response.message && response.message === 'Cuenta validada') {
-					this.router.navigate([]).then(() => {
-						window.open(DOWNLOAD, '_blank');
-					})
-					this.router.navigate(['/pages/home']);
-					Swal.fire({
-						icon: 'success',
-						html: `<h1>Gracias</h1>
-						<p>Tu regalo se está descargando</p>`
-					})
+					this.file = true;
 				}
 			}, error => {
 				Swal.hideLoading();
@@ -104,6 +99,7 @@ export class PresupuestoComponent implements OnInit {
 		}
   }
 
+
 	register() {
 		this.validateAllFormFields(this.registerForm);
 		if(!this.registerForm.valid) {
@@ -116,9 +112,9 @@ export class PresupuestoComponent implements OnInit {
 		Swal.fire('Espera...');
 		Swal.showLoading();
 		this.userService.register(
-			this.firstName.value,
-			this.lastName.value,
-			this.email.value,
+			this.properCase(this.firstName.value),
+			this.properCase(this.lastName.value),
+			this.email.value.toLowerCase(),
 			THIS_URI
 		).subscribe(() => {
 			Swal.hideLoading();
@@ -126,12 +122,22 @@ export class PresupuestoComponent implements OnInit {
 			Swal.fire({
 				icon: 'success',
 				html: `<h3>Gracias</h3>
-				<p>Te hemos enviado a tu correo una liga para que puedas descargar tu obsequio</p>
-				<p>Revisa en tu correo y de ser necesario busca en la bandeja de correos "No deseados"</p>`
+				<p>Hemos enviado a tu correo una liga para que puedas descargar tu obsequio</p>
+				<p>Revisa en tu correo y de ser necesario busca en la bandeja de correos "No deseados" o "SPAM"</p>`
 			});
 		}, error => {
 			Swal.hideLoading();
 			Swal.close();
+			// console.log(error.error.error);
+			if(error.error && error.error.error === 'Usuario ya existe') {
+				Swal.fire({
+					icon: 'info',
+					html: `<p>Ya te has registrado previamente. Muchas gracias.</p>
+					<p>Descarga tu archivo</p>`
+				});
+				this.file = true;
+				return;
+			}
 			Swal.fire({
 				icon: 'error',
 				html: `<h3>Hubo un error</h3>
@@ -151,6 +157,18 @@ export class PresupuestoComponent implements OnInit {
 				this.validateAllFormFields(control);
 			}
 		});
+	}
+
+	properCase(stringToModify: string) {
+		if(!stringToModify) return stringToModify;
+		var strings = stringToModify.split(' ');
+		// console.log(strings);
+		strings.forEach(word => {
+			word = word.toLowerCase();
+			word = word.charAt(0).toUpperCase() + word.slice(1);
+		});
+		if(strings.length === 1) return strings[0];
+		return strings.join(' ');
 	}
 
 }

@@ -5,7 +5,6 @@ import {
 	FormsModule,
 	ReactiveFormsModule
 } from '@angular/forms';
-
 import {
 	EmailvalidateComponent
 } from './emailvalidate/emailvalidate.component';

@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
-	FileSaverModule
-} from 'ngx-filesaver';
-import {
 	FooterComponent,
 	NavbarComponent
 } from './components';
@@ -26,8 +23,7 @@ import {
 	],
   imports: [
     CommonModule,
-		RouterModule,
-		FileSaverModule
+		RouterModule
   ],
 	providers: [
 		UserService
