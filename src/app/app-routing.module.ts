@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 
 import {
-	PagesComponent
-} from './layouts/pages/pages.component';
+	AuthGuard
+} from './guards';
+
 import {
-	LandingComponent
-} from './layouts/landing/landing.component';
+	MainLayoutComponent
+} from './layouts/main/main.component';
 
 const routes: Routes = [
 	{
@@ -31,7 +32,7 @@ const routes: Routes = [
 		pathMatch: 'full'
 	},{
 		path: '',
-		component: PagesComponent,
+		component: MainLayoutComponent,
 		children: [
 			{
 				path: 'pages',
@@ -48,22 +49,22 @@ const routes: Routes = [
 		pathMatch: 'full'
 	},{
 		path: '',
-		component: LandingComponent,
+		component: MainLayoutComponent,
 		children: [
 			{
 				path: 'landing',
 				loadChildren: () => import('./landing/landing.module').then(mod => mod.LandingModule)
 			}
 		]
-	// },{
-	// 	path: '',
-	// 	component: LandingComponent,
-	// 	children: [
-	// 		{
-	// 			path: 'blogs',
-	// 			loadChildren: () => import('./blogs/blogs.module').then(mod => mod.BlogsModule)
-	// 		}
-	// 	]
+	},{
+		path: '',
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'blogs',
+				loadChildren: () => import('./blogs/blogs.module').then(mod => mod.BlogsModule)
+			}
+		]
 }, {
 	path: '**',
 	redirectTo: '/pages/notfound',
