@@ -1,0 +1,78 @@
+<section class="pt-0 pb-5">
+	<div class="container" [formGroup]="blogForm">
+		<div class="row mb-2">
+			<div class="col-sm col-md-9 text-center">
+				<span *ngIf="!sending">&nbsp;</span>
+				<span class="text-danger blink_me" *ngIf="sending">Guardando...</span>
+			</div>
+			<div class="col-sm col-md-3">
+				<input
+					type="checkbox"
+					name="main"
+					formControlName="main"
+					class="mr-2"
+					>
+				<small> Incluirlo en la página principal</small>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-12">
+				<input
+					class="borderNone h1 mt-0 mb-0 px-3"
+					type="text"
+					name="title"
+					placeholder="Ponle título"
+					formControlName="title"
+					>
+			</div>
+		</div>
+		<div class="row mb-3" *ngIf="!title.pristine">
+			<div class="col-12">
+				<input
+					class="borderNone h3 mt-0 mb-0 px-3"
+					type="text"
+					placeholder="Agrega una breve descripción"
+					formControlName="description"
+					>
+			</div>
+		</div>
+		<div class="row mb-3" *ngIf="!description.pristine && !photoSelected">
+			<div class="col-12">
+				<input
+					class="borderNone mt-0 mb-0 px-3"
+					type="text"
+					name="photo"
+					placeholder="Agrega una imagen, escribiendo una palabra de búsqueda y luego da Enter"
+					(keyup.enter)="getPhotos();"
+					formControlName="photo"
+					>
+			</div>
+		</div>
+		<div class="row mb-3" *ngIf="photos.length > 0 && !photoId">
+			<div class="col-12">
+				<blog-photos-display
+					[photos]="photos"
+					(photoSelected)=getPhotoSelected($event);
+				></blog-photos-display>
+			</div>
+		</div>
+		<div class="row mb-3" *ngIf="photoSelected">
+			<div class="col-12">
+				<img [src]="photoSelected" class="img-fluid">
+			</div>
+		</div>
+		<div class="row" *ngIf="!description.pristine">
+			<span class="text-danger blink_me" *ngIf="sending">Guardando...</span>
+			<div class="col-12">
+					<quill-editor
+						theme="bubble"
+						name="content"
+						id="editor"
+						formControlName="content"
+						placeholder="Cuenta tu historia"
+						(onBlur)="getAndSetArticle($event);"
+						></quill-editor>
+			</div>
+		</div>
+	</div>
+</section>

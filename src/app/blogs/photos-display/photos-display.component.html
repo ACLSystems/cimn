@@ -1,0 +1,12 @@
+<div class="container">
+	<div class="row row-cols-1 row-cols-md-4">
+		<div class="col mb-4" *ngFor="let photo of photos">
+			<div
+				class="card clickme"
+				(click)="selection(photo.id);"
+				>
+				<img class="card-img" [src]="photo.url">
+			</div>
+		</div>
+	</div>
+</div>

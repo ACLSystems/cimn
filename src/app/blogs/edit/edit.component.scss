@@ -1,0 +1,18 @@
+
+.borderNone {
+	border-width: 0px;
+	border: none;
+	outline-width: none;
+	outline: none;
+	display: inline-block;
+	width: 100%;
+	vertical-align: middle;
+}
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}

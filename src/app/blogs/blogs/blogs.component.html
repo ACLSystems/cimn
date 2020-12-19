@@ -1,0 +1,29 @@
+<blogs-main-navbar></blogs-main-navbar>
+<section class="pt-0 pb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-8">
+				<h1 class="mt-0 mb-0">Blogs</h1>
+			</div>
+			<div class="col-xs-12 col-md-4 text-right">
+				<button
+					class="btn btn-primary"
+					(click)="newBlog();"
+					>Crear</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col"><hr></div>
+		</div>
+		<div class="row mb-1" *ngFor="let blog of blogs" (click)="editBlog(blog._id)">
+			<div class="col-sm col-md-3 p-0">
+				<img [src]='"https://source.unsplash.com/" + blog.photo + "/243x162"' class="img-fluid" *ngIf="blog.photo">
+			</div>
+			<div class="col">
+				<p class="mb-0"><b>{{blog.title}}</b></p>
+				<p class="mb-0">{{blog.description}}</p>
+				<p class="mb-0"><small class="text-muted">{{blog.logInfo.createdBy.firstName}} {{blog.logInfo.createdBy.lastName}} - <b>{{blog.logInfo.createdAt | dateAgo }}</b></small> </p>
+			</div>
+		</div>
+	</div>
+</section>
