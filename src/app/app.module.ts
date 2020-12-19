@@ -7,16 +7,14 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 
 import { AppComponent } from "./app.component";
-import { LandingComponent } from "./layouts/landing/landing.component";
 
 import { SharedModule } from "./shared";
-import { PagesComponent } from "./layouts/pages/pages.component";
+import { MainLayoutComponent } from './layouts/main/main.component';
 
 @NgModule({
   declarations: [
 		AppComponent,
-		LandingComponent,
-		PagesComponent
+		MainLayoutComponent
 	],
   imports: [
     BrowserModule,
