@@ -21,7 +21,6 @@ import {
 	LogInfo
 } from './article.type';
 
-declare const $:any;
 
 @Component({
   selector: 'app-edit',
@@ -50,8 +49,7 @@ export class EditComponent implements OnInit {
 		description: [''],
 		photo: [''],
 		content: [''],
-		main: [false],
-		validateEmail: [false]
+		main: [false]
 	})
 
 	constructor(
@@ -84,26 +82,25 @@ export class EditComponent implements OnInit {
 		return this.blogForm.get('main');
 	}
 
-	get validateEmail() {
-		return this.blogForm.get('validateEmail');
-	}
-
 	ngOnInit(): void {
 		if(this.articleId) {
 			Swal.fire('Espera...');
 			Swal.showLoading();
 			this.getArticle(this.articleId);
 		}
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
+		console.group('ngOnInit')
+		console.log(this.blogForm);
+		console.groupEnd();
 	}
 
 	getArticle(id:string) {
 		this.blogsService.getArticle(id).subscribe((res: Article) => {
 			this.article = res;
-			console.log(this.article);
-			if(this.article.title) this.title.setValue(this.article.title);
+			// console.log(this.article);
+			if(this.article.title) {
+				this.title.setValue(this.article.title);
+				this.title.markAsDirty();
+			}
 			if(this.article.photo) this.getPhotoSelected(this.article.photo);
 			if(this.article.description) {
 				this.description.setValue(this.article.description);
@@ -159,14 +156,17 @@ export class EditComponent implements OnInit {
 		});
 	}
 
-	getAndSetArticle(editor: Quill){
+	getContents(editor: Quill) {
 		this.contentObject = JSON.parse(JSON.stringify(editor.editor.getContents().ops));
-		// console.log(this.contentObject);
+		this.getAndSetArticle();
+	}
+
+	getAndSetArticle(){
 		this.article = {
 			title: this.title.value,
 			description: this.description.value,
 			photo: this.photoId,
-			content: this.contentObject,
+			content: this.contentObject || this.content.value,
 			contentInnerHTML: this.content.value,
 			main: this.main.value
 		}
@@ -188,6 +188,11 @@ export class EditComponent implements OnInit {
 				this.sending = false;
 			},8);
 		});
+	}
+
+	toggleMain() {
+		this.main.setValue(!this.main.value);
+		this.getAndSetArticle();
 	}
 
 	setLogInfo(logInfo:LogInfo) {

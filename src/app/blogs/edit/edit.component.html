@@ -37,46 +37,31 @@
 							<p><small class="text-success">Creado <b>{{createdAt | dateAgo }}</b><br /><span class="text-muted">por {{createdBy}}</span></small></p>
 						</div>
 					</div>
-					<div class="row mb-3">
-						<div class="col">
-							<input
-								type="checkbox"
-								name="main"
-								formControlName="main"
-								class="mr-2"
-								data-toggle="tooltip"
-								data-placement="bottom"
-								title="Selecciona esta opción si deseas incluir este artículo en la página principal"
-								>
-							<small
-								data-toggle="tooltip"
-								data-placement="bottom"
-								title="Selecciona esta opción si deseas incluir este artículo en la página principal"
-							> Incluirlo en la página principal</small>
+					<div class="row mb-3" *ngIf="!description.pristine">
+						<div class="col" >
+							<button
+								class="btn btn-sm btn-block"
+								[ngClass]="{'btn-danger': main.value, 'btn-secondary': !main.value}"
+								(click)="toggleMain();"
+							>
+								Página principal
+							</button>
 						</div>
 					</div>
-					<div class="row mb-3">
-						<div class="col">
-							<input
-								type="checkbox"
-								name="validateEmail"
-								formControlName="validateEmail"
-								class="mr-2"
-								data-toggle="tooltip"
-								data-placement="bottom"
-								title="Selecciona esta opción si deseas incluir en este artículo el formulario de validación de correo electrónico"
-								>
-							<small
-								data-toggle="tooltip"
-								data-placement="bottom"
-								title="Selecciona esta opción si deseas incluir en este artículo el formulario de validación de correo electrónico"
-							> Incluir registro email</small>
+					<div class="row mb-3" *ngIf="!description.pristine">
+						<div class="col" >
+							<button
+								class="btn btn-sm btn-block btn-primary"
+								(click)="getAndSetArticle();"
+							>
+								Guardar
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-12 col-md-9 mt-5">
-				<div class="row mt-5 mb-3">
+				<div class="row mt-5">
 					<div class="col-12">
 						<input
 							class="borderNone h1 mt-0 mb-0 px-3"
@@ -87,18 +72,10 @@
 							>
 					</div>
 				</div>
-				<div class="row mb-3 d-block d-sm-block d-md-none">
-					<div class="col-sm-12" *ngIf="updatedAt">
-						<p><small class="text-primary text-center" >Actualizado <b>{{updatedAt | dateAgo}}</b> por <i class="text-muted">{{updatedBy}}</i>&nbsp;</small></p>
-					</div>
-					<div class="col-sm-12">
-						<p><small class="text-success text-center">Creado <b>{{createdAt | dateAgo }}</b> por <i class="text-muted">{{createdBy}}</i></small></p>
-					</div>
-				</div>
-				<div class="row mb-3" *ngIf="!title.pristine">
+				<div class="row" *ngIf="!title.pristine">
 					<div class="col-12">
 						<input
-							class="borderNone h3 mt-0 mb-0 px-3"
+							class="borderNone h4 mt-0 mb-0 px-3 text-muted"
 							type="text"
 							placeholder="Agrega una breve descripción"
 							formControlName="description"
@@ -138,7 +115,7 @@
 								id="editor"
 								formControlName="content"
 								placeholder="Cuenta tu historia"
-								(onBlur)="getAndSetArticle($event);"
+								(onBlur)="getContents($event);"
 								></quill-editor>
 					</div>
 				</div>
