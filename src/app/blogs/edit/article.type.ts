@@ -1,3 +1,20 @@
+export interface LogHistory {
+	updatedAt: Date | string,
+	updatedBy: {
+		firstName?: string,
+		lastName?: string
+	}
+}
+
+export interface LogInfo {
+	createdAt: Date | string;
+	createdBy: {
+		firstName?: string,
+		lastName?: string
+	},
+	logHistory?: LogHistory[]
+}
+
 export interface Article {
 	title: string;
 	description: string;
@@ -6,4 +23,5 @@ export interface Article {
 	photo?: string;
 	content?: any;
 	contentInnerHTML?: string;
+	logInfo?: LogInfo
 }

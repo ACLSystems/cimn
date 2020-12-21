@@ -17,8 +17,11 @@ import {
 	BlogsService
 } from '../blogs.service';
 import {
-	Article
+	Article,
+	LogInfo
 } from './article.type';
+
+declare const $:any;
 
 @Component({
   selector: 'app-edit',
@@ -37,13 +40,18 @@ export class EditComponent implements OnInit {
 	sending: boolean = false;
 	message: string = 'Guardando...';
 	editor: any;
+	createdBy: any;
+	createdAt: Date;
+	updatedBy: any;
+	updatedAt: Date;
 
 	blogForm = this.fb.group({
 		title: [''],
 		description: [''],
 		photo: [''],
 		content: [''],
-		main: [false]
+		main: [false],
+		validateEmail: [false]
 	})
 
 	constructor(
@@ -76,12 +84,19 @@ export class EditComponent implements OnInit {
 		return this.blogForm.get('main');
 	}
 
+	get validateEmail() {
+		return this.blogForm.get('validateEmail');
+	}
+
 	ngOnInit(): void {
 		if(this.articleId) {
 			Swal.fire('Espera...');
 			Swal.showLoading();
 			this.getArticle(this.articleId);
 		}
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
 	}
 
 	getArticle(id:string) {
@@ -96,6 +111,7 @@ export class EditComponent implements OnInit {
 			}
 			if(this.article.content) this.content.setValue(this.article.contentInnerHTML);
 			if(this.article.main) this.main.setValue(this.article.main);
+			if(this.article.logInfo) this.setLogInfo(this.article.logInfo)
 			setTimeout(() => {
 				Swal.hideLoading();
 				Swal.close();
@@ -145,7 +161,7 @@ export class EditComponent implements OnInit {
 
 	getAndSetArticle(editor: Quill){
 		this.contentObject = JSON.parse(JSON.stringify(editor.editor.getContents().ops));
-		console.log(this.contentObject);
+		// console.log(this.contentObject);
 		this.article = {
 			title: this.title.value,
 			description: this.description.value,
@@ -158,8 +174,12 @@ export class EditComponent implements OnInit {
 		this.blogsService.sendArticle(
 			this.article,
 			this.articleId
-		).subscribe(() => {
-			// console.log(data);
+		).subscribe((res:any) => {
+			console.group('Article');
+			console.log(res);
+			console.groupEnd();
+			if(res._id) this.articleId = res._id;
+			if(res.logInfo) this.setLogInfo(res.logInfo);
 			this.sending = false;
 		}, error => {
 			console.log(error);
@@ -168,6 +188,19 @@ export class EditComponent implements OnInit {
 				this.sending = false;
 			},8);
 		});
+	}
+
+	setLogInfo(logInfo:LogInfo) {
+		if(!logInfo) return;
+		if(logInfo.createdAt) this.createdAt = new Date(logInfo.createdAt);
+		if(logInfo.createdBy?.firstName)
+			this.createdBy =
+			`${logInfo.createdBy.firstName} ${logInfo.createdBy.lastName}`;
+		if(logInfo.logHistory &&
+			logInfo.logHistory.length > 0)
+			this.updatedAt = new Date(logInfo.logHistory[logInfo.logHistory.length - 1].updatedAt);
+		if(logInfo.logHistory && logInfo.logHistory.length > 0 && logInfo.logHistory[logInfo.logHistory.length - 1].updatedBy?.firstName) this.updatedBy =
+		`${logInfo.logHistory[logInfo.logHistory.length - 1].updatedBy.firstName} ${logInfo.logHistory[logInfo.logHistory.length - 1].updatedBy.lastName}` ;
 	}
 
 }

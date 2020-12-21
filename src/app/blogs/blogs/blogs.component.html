@@ -15,7 +15,7 @@
 		<div class="row">
 			<div class="col"><hr></div>
 		</div>
-		<div class="row mb-1" *ngFor="let blog of blogs" (click)="editBlog(blog._id)">
+		<div class="row mb-1" *ngFor="let blog of blogs">
 			<div class="col-sm col-md-3 p-0">
 				<img [src]='"https://source.unsplash.com/" + blog.photo + "/243x162"' class="img-fluid" *ngIf="blog.photo">
 			</div>
@@ -23,6 +23,13 @@
 				<p class="mb-0"><b>{{blog.title}}</b></p>
 				<p class="mb-0">{{blog.description}}</p>
 				<p class="mb-0"><small class="text-muted">{{blog.logInfo.createdBy.firstName}} {{blog.logInfo.createdBy.lastName}} - <b>{{blog.logInfo.createdAt | dateAgo }}</b></small> </p>
+			</div>
+			<div class="col-auto">
+				<a class="pointme"><i class="fas fa-eye text-primary"></i></a>
+
+			</div>
+			<div class="col-auto">
+				<a class="pointme" (click)="editBlog(blog._id)"><i class="fas fa-pencil-alt text-success"></i></a>
 			</div>
 		</div>
 	</div>

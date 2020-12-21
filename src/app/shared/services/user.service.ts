@@ -9,12 +9,16 @@ import {
 import {
 	environment
 } from '../../../environments/environment';
-
+import {
+	JwtHelperService
+} from '@auth0/angular-jwt';
 import {
 	Roles
 } from '../types';
 
-export let JSONHeaders = new HttpHeaders ({
+const jwt = new JwtHelperService();
+
+const JSONHeaders = new HttpHeaders ({
 		'Content-Type':'application/json'
 	});
 
@@ -26,7 +30,7 @@ export class UserService {
 	url: string;
 
   constructor(
-		private http: HttpClient
+		private http: HttpClient,
 	) {
 		this.url = environment.apiUrl;
 	}
@@ -82,6 +86,16 @@ export class UserService {
 		const token = localStorage.getItem('token');
 		if (!token) return null;
 		return token;
+	}
+
+	tokenExpirationDate() {
+		return jwt.getTokenExpirationDate(this.getToken());
+	}
+
+	isTokenExpired(): boolean {
+		const token = this.getToken();
+		const expired = jwt.isTokenExpired(token);
+		return expired;
 	}
 
 	getRoles(): Roles | null {

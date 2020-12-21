@@ -14,6 +14,10 @@ import {
 	UserService
 } from './services';
 
+export function tokenGetter() {
+	return localStorage.getItem('token');
+}
+
 @NgModule({
   declarations: [
 		FooterComponent,
@@ -23,7 +27,7 @@ import {
 	],
   imports: [
     CommonModule,
-		RouterModule
+		RouterModule,
   ],
 	providers: [
 		UserService

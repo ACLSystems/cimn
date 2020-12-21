@@ -16,3 +16,13 @@
 @keyframes blinker {
   50% { opacity: 0; }
 }
+
+.fixedToTop {
+	position: fixed;
+	width: 25%;
+}
+
+.scrollit {
+	float: left;
+	width: 71%;
+}

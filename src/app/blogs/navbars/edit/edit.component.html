@@ -1,1 +1,32 @@
-<p>edit works!</p>
+<nav class="navbar navbar-light bg-white navbar-expand-md p-0">
+	<div class="container">
+		<a class="navbar-brand" [routerLink]="['/pages/home']">
+			<img src="assets/img/cimn-50.png" alt="Cómo iniciar mi negocio" width="36px;">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav1">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" [routerLink]="['/pages/home']">Inicio <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" [routerLink]="['/blogs']">Blogs</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav justify-content-end d-none d-lg-flex ml-md-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="https://wa.link/djd7t5">
+						<i class="fab fa-whatsapp"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://www.facebook.com/ComoIniciarmiNegocio/">
+						<i class="fab fa-facebook"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

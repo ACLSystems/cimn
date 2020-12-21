@@ -7,10 +7,11 @@ import {
 } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import {
 	UserService
 } from '@shared';
+
+const LOGIN = '/pages/login';
 
 @Injectable({
 	providedIn: 'root'
@@ -23,23 +24,37 @@ export class AuthGuard implements CanActivate {
 	constructor(
 		private userService: UserService,
 		private router: Router
-	) {}
+	) {
 
-	canActivate(): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree>
+	}
+
+	canActivate(
+		route: ActivatedRouteSnapshot,
+		state: RouterStateSnapshot
+	):
+		boolean |
+		UrlTree |
+		Promise<boolean | UrlTree> |
+		Observable<boolean | UrlTree>
 	{
-		this.token = this.userService.getToken();
-		if(!this.token) {
-			return this.router.createUrlTree(['/pages/login']);
-		}
-		const minMinutes = 10 * 60 * 1000;
-		const now = new Date();
-		const expiration = this.userService.getExpiration();
-		if(!expiration) return this.router.createUrlTree(['/pages/login']);
-		const diff = expiration.getTime() - now.getTime();
-		if(diff > minMinutes) {
-			return true;
-		}
-		return this.router.createUrlTree(['/pages/login']);
+		// console.group('Auth Guard');
+		// console.log('State url',state.url);
+		// console.groupEnd();
+		if(!this.userService.getToken()) return this.router.navigate([LOGIN],
+			{
+				queryParams: {
+					returnUrl: state.url
+				}
+			}
+		);
+		if(this.userService.isTokenExpired()) return this.router.createUrlTree([LOGIN],
+			{
+				queryParams: {
+					returnUrl: state.url
+				}
+			}
+		);
+		return true;
 	}
 
 }

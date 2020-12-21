@@ -1,78 +1,150 @@
+<nav class="navbar fixed-top navbar-light bg-white navbar-expand-md p-0">
+	<div class="container">
+		<a class="navbar-brand" [routerLink]="['/pages/home']">
+			<img src="assets/img/cimn-50.png" alt="Cómo iniciar mi negocio" width="36px;">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav1">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" [routerLink]="['/pages/home']">Inicio <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" [routerLink]="['/blogs']">Blogs</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav justify-content-end d-none d-lg-flex ml-md-auto">
+				<li class="nav-item">
+					<a class="nav-link text-danger blink_me btn btn-danger" *ngIf="sending">Guardando...</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
 <section class="pt-0 pb-5">
-	<div class="container" [formGroup]="blogForm">
-		<div class="row mb-2">
-			<div class="col-sm col-md-9 text-center">
-				<span *ngIf="!sending">&nbsp;</span>
-				<span class="text-danger blink_me" *ngIf="sending">Guardando...</span>
+	<div class="container-fluid" [formGroup]="blogForm">
+		<div class="row">
+			<div class="col-md-2 d-none mt-5 d-sm-none d-md-block d-lg-block d-xl-block">
+				<div class="sticky-top">
+					<div class="row mt-5">
+						<div class="col mt-5">&nbsp;</div>
+					</div>
+					<div class="row mt-5">
+						<div class="col mt-5 text-center">
+							<p *ngIf="updatedAt"><small class="text-primary">Actualizado <b>{{updatedAt | dateAgo}}</b><br /><span *ngIf="updatedBy" class="text-muted">por {{updatedBy}}</span></small></p>
+							<p><small class="text-success">Creado <b>{{createdAt | dateAgo }}</b><br /><span class="text-muted">por {{createdBy}}</span></small></p>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col">
+							<input
+								type="checkbox"
+								name="main"
+								formControlName="main"
+								class="mr-2"
+								data-toggle="tooltip"
+								data-placement="bottom"
+								title="Selecciona esta opción si deseas incluir este artículo en la página principal"
+								>
+							<small
+								data-toggle="tooltip"
+								data-placement="bottom"
+								title="Selecciona esta opción si deseas incluir este artículo en la página principal"
+							> Incluirlo en la página principal</small>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col">
+							<input
+								type="checkbox"
+								name="validateEmail"
+								formControlName="validateEmail"
+								class="mr-2"
+								data-toggle="tooltip"
+								data-placement="bottom"
+								title="Selecciona esta opción si deseas incluir en este artículo el formulario de validación de correo electrónico"
+								>
+							<small
+								data-toggle="tooltip"
+								data-placement="bottom"
+								title="Selecciona esta opción si deseas incluir en este artículo el formulario de validación de correo electrónico"
+							> Incluir registro email</small>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="col-sm col-md-3">
-				<input
-					type="checkbox"
-					name="main"
-					formControlName="main"
-					class="mr-2"
-					>
-				<small> Incluirlo en la página principal</small>
+			<div class="col-sm-12 col-md-9 mt-5">
+				<div class="row mt-5 mb-3">
+					<div class="col-12">
+						<input
+							class="borderNone h1 mt-0 mb-0 px-3"
+							type="text"
+							name="title"
+							placeholder="Ponle título"
+							formControlName="title"
+							>
+					</div>
+				</div>
+				<div class="row mb-3 d-block d-sm-block d-md-none">
+					<div class="col-sm-12" *ngIf="updatedAt">
+						<p><small class="text-primary text-center" >Actualizado <b>{{updatedAt | dateAgo}}</b> por <i class="text-muted">{{updatedBy}}</i>&nbsp;</small></p>
+					</div>
+					<div class="col-sm-12">
+						<p><small class="text-success text-center">Creado <b>{{createdAt | dateAgo }}</b> por <i class="text-muted">{{createdBy}}</i></small></p>
+					</div>
+				</div>
+				<div class="row mb-3" *ngIf="!title.pristine">
+					<div class="col-12">
+						<input
+							class="borderNone h3 mt-0 mb-0 px-3"
+							type="text"
+							placeholder="Agrega una breve descripción"
+							formControlName="description"
+							>
+					</div>
+				</div>
+				<div class="row mb-3" *ngIf="!description.pristine && !photoSelected">
+					<div class="col-12">
+						<input
+							class="borderNone mt-0 mb-0 px-3"
+							type="text"
+							name="photo"
+							placeholder="Agrega una imagen, escribiendo una palabra de búsqueda y luego da Enter"
+							(keyup.enter)="getPhotos();"
+							formControlName="photo"
+							>
+					</div>
+				</div>
+				<div class="row mb-3" *ngIf="photos.length > 0 && !photoId">
+					<div class="col-12">
+						<blog-photos-display
+							[photos]="photos"
+							(photoSelected)=getPhotoSelected($event);
+						></blog-photos-display>
+					</div>
+				</div>
+				<div class="row mb-3" *ngIf="photoSelected">
+					<div class="col-12">
+						<img [src]="photoSelected" class="img-fluid">
+					</div>
+				</div>
+				<div class="row" *ngIf="!description.pristine">
+					<div class="col-12">
+							<quill-editor
+								theme="bubble"
+								name="content"
+								id="editor"
+								formControlName="content"
+								placeholder="Cuenta tu historia"
+								(onBlur)="getAndSetArticle($event);"
+								></quill-editor>
+					</div>
+				</div>
 			</div>
+			<div class="col-md d-none d-sm-none d-md-block d-lg-block d-xl-block"></div>
 		</div>
-		<div class="row mb-3">
-			<div class="col-12">
-				<input
-					class="borderNone h1 mt-0 mb-0 px-3"
-					type="text"
-					name="title"
-					placeholder="Ponle título"
-					formControlName="title"
-					>
-			</div>
-		</div>
-		<div class="row mb-3" *ngIf="!title.pristine">
-			<div class="col-12">
-				<input
-					class="borderNone h3 mt-0 mb-0 px-3"
-					type="text"
-					placeholder="Agrega una breve descripción"
-					formControlName="description"
-					>
-			</div>
-		</div>
-		<div class="row mb-3" *ngIf="!description.pristine && !photoSelected">
-			<div class="col-12">
-				<input
-					class="borderNone mt-0 mb-0 px-3"
-					type="text"
-					name="photo"
-					placeholder="Agrega una imagen, escribiendo una palabra de búsqueda y luego da Enter"
-					(keyup.enter)="getPhotos();"
-					formControlName="photo"
-					>
-			</div>
-		</div>
-		<div class="row mb-3" *ngIf="photos.length > 0 && !photoId">
-			<div class="col-12">
-				<blog-photos-display
-					[photos]="photos"
-					(photoSelected)=getPhotoSelected($event);
-				></blog-photos-display>
-			</div>
-		</div>
-		<div class="row mb-3" *ngIf="photoSelected">
-			<div class="col-12">
-				<img [src]="photoSelected" class="img-fluid">
-			</div>
-		</div>
-		<div class="row" *ngIf="!description.pristine">
-			<span class="text-danger blink_me" *ngIf="sending">Guardando...</span>
-			<div class="col-12">
-					<quill-editor
-						theme="bubble"
-						name="content"
-						id="editor"
-						formControlName="content"
-						placeholder="Cuenta tu historia"
-						(onBlur)="getAndSetArticle($event);"
-						></quill-editor>
-			</div>
-		</div>
+
 	</div>
 </section>

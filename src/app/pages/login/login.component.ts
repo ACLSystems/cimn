@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+	ActivatedRoute,
+	Router
+} from '@angular/router';
 import {
 	FormBuilder,
 	Validators
@@ -27,6 +30,7 @@ export class LoginComponent implements OnInit {
 		]]
 	});
 	dataIsOk: boolean = false;
+	returnUrl: string;
 
 	get username() {
 		return this.loginForm.get('username');
@@ -37,6 +41,7 @@ export class LoginComponent implements OnInit {
 	}
 
   constructor(
+		private route: ActivatedRoute,
 		private router: Router,
 		private userService: UserService,
 		private fb: FormBuilder
@@ -45,6 +50,11 @@ export class LoginComponent implements OnInit {
 	}
 
   ngOnInit(): void {
+		this.userService.removeProfile();
+		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/pages/home';
+		console.group('Return Url');
+		console.log(this.returnUrl);
+		console.groupEnd();
   }
 
 	getLogin() {
@@ -70,7 +80,7 @@ export class LoginComponent implements OnInit {
 					html: '<p>Ingreso exitoso</p>'
 				})
 			}
-			this.router.navigate(['/pages/home']);
+			this.router.navigateByUrl(this.returnUrl);
 		}, error => {
 			console.log(error);
 			Swal.hideLoading();
