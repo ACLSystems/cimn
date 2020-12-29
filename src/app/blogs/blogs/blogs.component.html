@@ -23,12 +23,19 @@
 				<p class="mb-0"><b>{{blog.title}}</b></p>
 				<p class="mb-0">{{blog.description}}</p>
 				<p class="mb-0"><small class="text-muted">{{blog.logInfo.createdBy.firstName}} {{blog.logInfo.createdBy.lastName}} - <b>{{blog.logInfo.createdAt | dateAgo }}</b></small> </p>
+				<p
+					class="pointme"
+					(click)="copyMessage(preurl + '/' + blog._id);"
+					data-toggle="tooltip"
+					data-placement="top"
+					title="Da clic para copiar"
+				>{{preurl}}/{{blog._id}}</p>
 			</div>
 			<div class="col-auto">
-				<a class="pointme"><i class="fas fa-eye text-primary"></i></a>
+				<a class="pointme" (click)="viewBlog(blog._id);"><i class="fas fa-eye text-primary"></i></a>
 			</div>
 			<div class="col-auto">
-				<a class="pointme" (click)="editBlog(blog._id)"><i class="fas fa-pencil-alt text-success"></i></a>
+				<a class="pointme" (click)="editBlog(blog._id);"><i class="fas fa-pencil-alt text-success"></i></a>
 			</div>
 		</div>
 	</div>
