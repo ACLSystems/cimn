@@ -5,7 +5,10 @@ import {
 	FormsModule,
 	ReactiveFormsModule
 } from '@angular/forms';
-
+import { QuillModule } from 'ngx-quill';
+import {
+	ToastrModule
+} from 'ngx-toastr';
 import {
 	HomeComponent
 } from './home/home.component';
@@ -24,7 +27,9 @@ import { PagesRoutingModule } from './pages.routing.module';
 import {
 	SharedModule
 } from '@shared';
-import { NotfoundComponent } from './notfound/notfound.component'
+import { NotfoundComponent } from './notfound/notfound.component';
+import { BlogsComponent } from './blogs/blogs.component';
+import { SelfRegisterComponent } from './selfregister/selfregister.component'
 
 @NgModule({
   declarations: [
@@ -32,7 +37,9 @@ import { NotfoundComponent } from './notfound/notfound.component'
 		HomeEmpComponent,
 		LoginComponent,
 		PrivacyComponent,
-		NotfoundComponent
+		NotfoundComponent,
+		BlogsComponent,
+		SelfRegisterComponent
 	],
   imports: [
     CommonModule,
@@ -40,7 +47,9 @@ import { NotfoundComponent } from './notfound/notfound.component'
 		SharedModule,
 		PagesRoutingModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		ToastrModule,
+		QuillModule.forRoot()
   ]
 })
 export class PagesModule { }

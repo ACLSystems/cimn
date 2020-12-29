@@ -11,6 +11,9 @@ import {
 	HomeEmpComponent
 } from './home-emp/home-emp.component';
 import {
+	BlogsComponent
+} from './blogs/blogs.component';
+import {
 	LoginComponent
 } from './login/login.component';
 import {
@@ -19,6 +22,9 @@ import {
 import {
 	NotfoundComponent
 } from './notfound/notfound.component';
+import {
+	SelfRegisterComponent
+} from './selfregister/selfregister.component';
 
 const routes: Routes = [
 	{
@@ -28,11 +34,20 @@ const routes: Routes = [
 		path: 'empaudaz',
 		component: HomeEmpComponent
 	},{
+		path: 'blogs',
+		component: BlogsComponent
+	},{
+		path: 'blog/:articleid',
+		component: BlogsComponent
+	},{
 		path: 'login',
 		component: LoginComponent
 	},{
 		path: 'privacy',
 		component: PrivacyComponent
+	},{
+		path: 'register',
+		component: SelfRegisterComponent
 	},{
 		path: 'notfound',
 		component: NotfoundComponent
