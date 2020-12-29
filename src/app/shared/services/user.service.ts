@@ -18,9 +18,9 @@ import {
 
 const jwt = new JwtHelperService();
 
-const JSONHeaders = new HttpHeaders ({
-		'Content-Type':'application/json'
-	});
+// const JSONHeaders = new HttpHeaders ({
+// 		'Content-Type':'application/json'
+// 	});
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,13 @@ export class UserService {
 			password
 		});
 		const route = `${this.url}/api/login`;
-		return this.http.post(route,body,{headers:JSONHeaders});
+		return this.http.post(route,body);
+	}
+
+	getEmail(): string| null {
+		const email = localStorage.getItem('email');
+		if (!email) return null;
+		return email;
 	}
 
 	register(
@@ -64,7 +70,7 @@ export class UserService {
 		})
 		// console.log(body);
 		const route = `${this.url}/api/user`;
-		return this.http.post(route,body,{headers:JSONHeaders});
+		return this.http.post(route,body);
 	}
 
 	emailValidate(
@@ -79,7 +85,11 @@ export class UserService {
 			`${this.url}/api/user/${id}/${code}/validatetoken` :
 			`${this.url}/api/user/${id}/${code}/validate`
 			;
-		return this.http.patch(route,body,{headers:JSONHeaders});
+		return this.http.patch(route,body);
+	}
+
+	setRegister(email: string) {
+		localStorage.setItem('register',email.toLowerCase());
 	}
 
 	getToken(): string| null {
@@ -136,11 +146,9 @@ export class UserService {
 
 	getUserProfile(): Observable<any> {
 		const httpOptions = {
-			headers: JSONHeaders.set(
-				'Authorization',
-				`Bearer ${this.getToken()}`
-			)
-		}
+			headers: new HttpHeaders ({
+				'Authorization':`Bearer ${this.getToken()}`
+			})}
 		const route = `${this.url}/api/v1/user`;
 		return this.http.get(route,httpOptions);
 	}
@@ -154,6 +162,23 @@ export class UserService {
 		const route = `${this.url}/api/blogs/lastpublic`;
 		return this.http.get(route);
 	}
+
+	getArticle(blogid: string): Observable<any> {
+		let route = `${this.url}/api/blog/${blogid}`;
+		return this.http.get(route);
+	}
+
+	getPhoto(
+		photoId: string
+	): Observable<any> {
+		let route = `${this.url}/api/photo?photoid=${photoId}`;
+		return this.http.get(route);
+	}
+
+	getTokenByEmail() {
+
+	}
+
 }
 
 
