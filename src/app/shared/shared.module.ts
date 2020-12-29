@@ -11,7 +11,8 @@ import {
 	SafePipe
 } from './pipes';
 import {
-	UserService
+	UserService,
+	ValtransService
 } from './services';
 
 export function tokenGetter() {
@@ -30,7 +31,8 @@ export function tokenGetter() {
 		RouterModule,
   ],
 	providers: [
-		UserService
+		UserService,
+		ValtransService
 	],
 	exports: [
 		CommonModule,
