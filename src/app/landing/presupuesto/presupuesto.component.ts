@@ -8,13 +8,12 @@ import {
 } from '@angular/router';
 import {
 	FormBuilder,
-	Validators,
-	FormGroup,
-	FormControl
+	Validators
 } from '@angular/forms';
 import Swal from 'sweetalert2';
 import {
-	UserService
+	UserService,
+	ValtransService
 } from '@shared';
 
 const THIS_URI = 'budget';
@@ -63,7 +62,8 @@ export class PresupuestoComponent implements OnInit {
 		private fb: FormBuilder,
 		private userService: UserService,
 		private router: Router,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private valTrans: ValtransService
 	) {
 		this.activatedRoute.params.subscribe(params => {
 			if(params['userid']) this.userid = params['userid'];
@@ -101,7 +101,7 @@ export class PresupuestoComponent implements OnInit {
 
 
 	register() {
-		this.validateAllFormFields(this.registerForm);
+		this.valTrans.validateAllFormFields(this.registerForm);
 		if(!this.registerForm.valid) {
 			Swal.fire({
 				icon: 'warning',
@@ -112,8 +112,8 @@ export class PresupuestoComponent implements OnInit {
 		Swal.fire('Espera...');
 		Swal.showLoading();
 		this.userService.register(
-			this.properCase(this.firstName.value),
-			this.properCase(this.lastName.value),
+			this.valTrans.properCase(this.firstName.value),
+			this.valTrans.properCase(this.lastName.value),
 			this.email.value.toLowerCase(),
 			THIS_URI
 		).subscribe(() => {
@@ -146,29 +146,6 @@ export class PresupuestoComponent implements OnInit {
 			});
 			console.log(error);
 		})
-	}
-
-	validateAllFormFields(formGroup: FormGroup) {
-		Object.keys(formGroup.controls).forEach(field => {
-			const control = formGroup.get(field);
-			if(control instanceof FormControl) {
-				control.markAsDirty({ onlySelf: true});
-			} else if(control instanceof FormGroup) {
-				this.validateAllFormFields(control);
-			}
-		});
-	}
-
-	properCase(stringToModify: string) {
-		if(!stringToModify) return stringToModify;
-		var strings = stringToModify.split(' ');
-		// console.log(strings);
-		strings.forEach(word => {
-			word = word.toLowerCase();
-			word = word.charAt(0).toUpperCase() + word.slice(1);
-		});
-		if(strings.length === 1) return strings[0];
-		return strings.join(' ');
 	}
 
 }
