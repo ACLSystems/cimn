@@ -1,8 +1,23 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import {
+	BrowserAnimationsModule
+} from '@angular/platform-browser/animations';
+import {
+	NgModule,
+	CUSTOM_ELEMENTS_SCHEMA
+} from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { HttpClientModule } from "@angular/common/http";
+import {
+	HttpClientModule,
+	HTTP_INTERCEPTORS
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+	ToastrModule
+} from 'ngx-toastr';
+import {
+	NgxSpinnerModule
+} from 'ngx-spinner';
 
 import { AppRoutingModule } from "./app-routing.module";
 
@@ -11,6 +26,11 @@ import { AppComponent } from "./app.component";
 import { SharedModule } from "./shared";
 import { MainLayoutComponent } from './layouts/main/main.component';
 
+import {
+	HttpErrorInterceptor,
+	LoaderInterceptor
+} from './interceptors';
+
 @NgModule({
   declarations: [
 		AppComponent,
@@ -18,13 +38,35 @@ import { MainLayoutComponent } from './layouts/main/main.component';
 	],
   imports: [
     BrowserModule,
+		BrowserAnimationsModule,
     RouterModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+		ToastrModule.forRoot({
+			timeOut: 10000,
+			positionClass: 'toast-top-right',
+			preventDuplicates: true,
+			progressAnimation: 'decreasing',
+			tapToDismiss: true
+		}),
+		NgxSpinnerModule
   ],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: HttpErrorInterceptor,
+			multi: true
+		},
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: LoaderInterceptor,
+			multi: true
+		}
+	],
+	schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [
 		AppComponent
 	]
