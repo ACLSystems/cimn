@@ -33,6 +33,10 @@ const routes: Routes = [
 	},{
 		path: 'budget/:userid/:code',
 		component: PresupuestoComponent
+	},{
+		path: 'register/:userid/:code',
+		redirectTo: '/pages/register',
+		pathMatch: 'full'
 	}
 
 ]
