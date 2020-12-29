@@ -11,7 +11,7 @@ import {
 } from '../../environments/environment';
 import {
 	Article
-} from './edit/article.type';
+} from '@shared';
 
 export let JSONHeaders = new HttpHeaders ({
 		'Content-Type':'application/json'
