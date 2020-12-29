@@ -44,18 +44,29 @@
 								[ngClass]="{'btn-danger': main.value, 'btn-secondary': !main.value}"
 								(click)="toggleMain();"
 							>
-								Página principal
+								<i class="fal fa-home-lg-alt"></i> Mostrar en Home
 							</button>
 						</div>
 					</div>
 					<div class="row mb-3" *ngIf="!description.pristine">
 						<div class="col" >
 							<button
-								class="btn btn-sm btn-block btn-primary"
+								class="btn btn-sm btn-block btn-success"
 								(click)="getAndSetArticle();"
 							>
-								Guardar
+								<i class="fal fa-save"></i> Guardar
 							</button>
+						</div>
+					</div>
+					<div class="row mb-3" *ngIf="preurl">
+						<div class="col-12 mt-0 mb-0 px-3 text-muted">
+							<span
+								class="btn btn-sm btn-block btn-primary px-3"
+								(click)="copyMessage();"
+								data-toggle="tooltip"
+								data-placement="top"
+								title="Da clic para copiar"
+							><i class="fal fa-link"></i> Copiar liga de este artículo</span>
 						</div>
 					</div>
 				</div>

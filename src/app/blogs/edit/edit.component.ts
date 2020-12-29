@@ -17,15 +17,19 @@ import {
 	BlogsService
 } from '../blogs.service';
 import {
+	ToastrService
+} from 'ngx-toastr';
+import {
 	Article,
 	LogInfo
-} from './article.type';
+} from '@shared';
 
+declare const $:any;
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+	selector: 'app-edit',
+	templateUrl: './edit.component.html',
+	styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
 
@@ -43,6 +47,7 @@ export class EditComponent implements OnInit {
 	createdAt: Date;
 	updatedBy: any;
 	updatedAt: Date;
+	preurl: string;
 
 	blogForm = this.fb.group({
 		title: [''],
@@ -55,7 +60,8 @@ export class EditComponent implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private blogsService: BlogsService,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private toastr: ToastrService
 	) {
 		this.activatedRoute.params.subscribe(params => {
 			if(params['articleid']) this.articleId = params['articleid'];
@@ -84,16 +90,39 @@ export class EditComponent implements OnInit {
 
 	ngOnInit(): void {
 		if(this.articleId) {
-			Swal.fire('Espera...');
-			Swal.showLoading();
 			this.getArticle(this.articleId);
+			this.preurl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/#/pages/blog/${this.articleId}`;
 		}
-		console.group('ngOnInit')
-		console.log(this.blogForm);
-		console.groupEnd();
+		// console.group('ngOnInit')
+		// console.log(this.blogForm);
+		// console.groupEnd();
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+	}
+
+	copyMessage(){
+		const selBox = document.createElement('textarea');
+		selBox.style.position = 'fixed';
+		selBox.style.left = '0';
+		selBox.style.top = '0';
+		selBox.style.opacity = '0';
+		selBox.value = this.preurl;
+		document.body.appendChild(selBox);
+		selBox.focus();
+		selBox.select();
+		document.execCommand('copy');
+		document.body.removeChild(selBox);
+		this.toastr.success(
+			'Liga copiada','',{
+				positionClass: 'toast-top-left'
+			}
+		);
 	}
 
 	getArticle(id:string) {
+		Swal.fire('Espera...');
+		Swal.showLoading();
 		this.blogsService.getArticle(id).subscribe((res: Article) => {
 			this.article = res;
 			// console.log(this.article);
@@ -116,11 +145,6 @@ export class EditComponent implements OnInit {
 		}, error => {
 			Swal.hideLoading();
 			Swal.close();
-			Swal.fire({
-				icon: 'error',
-				html: `<p>Hubo un error al descargar el artículo</p>
-				<p>${error.message}</p>`
-			});
 		});
 	}
 
@@ -181,6 +205,13 @@ export class EditComponent implements OnInit {
 			if(res._id) this.articleId = res._id;
 			if(res.logInfo) this.setLogInfo(res.logInfo);
 			this.sending = false;
+			this.toastr.success(
+				'Artículo guardado',
+				'',
+				{
+					positionClass: 'toast-top-left'
+				}
+			)
 		}, error => {
 			console.log(error);
 			this.message = 'Error al guardar!!';
@@ -203,9 +234,9 @@ export class EditComponent implements OnInit {
 			`${logInfo.createdBy.firstName} ${logInfo.createdBy.lastName}`;
 		if(logInfo.logHistory &&
 			logInfo.logHistory.length > 0)
-			this.updatedAt = new Date(logInfo.logHistory[logInfo.logHistory.length - 1].updatedAt);
-		if(logInfo.logHistory && logInfo.logHistory.length > 0 && logInfo.logHistory[logInfo.logHistory.length - 1].updatedBy?.firstName) this.updatedBy =
-		`${logInfo.logHistory[logInfo.logHistory.length - 1].updatedBy.firstName} ${logInfo.logHistory[logInfo.logHistory.length - 1].updatedBy.lastName}` ;
+			this.updatedAt = new Date(logInfo.logHistory[0].updatedAt);
+		if(logInfo.logHistory && logInfo.logHistory.length > 0 && logInfo.logHistory[0].updatedBy?.firstName) this.updatedBy =
+		`${logInfo.logHistory[0].updatedBy.firstName} ${logInfo.logHistory[0].updatedBy.lastName}` ;
 	}
 
 }
