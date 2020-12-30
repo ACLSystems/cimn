@@ -47,6 +47,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 						console.log('Error del servidor');
 						if(error.status === 0) {
 							errorMsg = `Error: El servidor no responde. Intenta más tarde`;
+						} else if(error.status === 401) {
+							errorMsg = 'No estás autorizado. Debes ingresar nuevamente.'
 						} else if(error.status === 404) {
 							if(error.url.includes('lastmainpublic')) showError = false;
 						} else {
