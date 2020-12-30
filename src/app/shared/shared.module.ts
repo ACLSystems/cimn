@@ -12,6 +12,7 @@ import {
 } from './pipes';
 import {
 	UserService,
+	SupportingServices,
 	ValtransService
 } from './services';
 
@@ -32,6 +33,7 @@ export function tokenGetter() {
   ],
 	providers: [
 		UserService,
+		SupportingServices,
 		ValtransService
 	],
 	exports: [
