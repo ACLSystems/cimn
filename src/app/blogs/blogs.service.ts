@@ -73,7 +73,7 @@ export class BlogsService {
 				`Bearer ${this.getToken()}`
 			)
 		}
-		console.log(article);
+		// console.log(article);
 		let route = articleId  ?
 			`${this.url}/api/v1/blog/${articleId}` :
 			`${this.url}/api/v1/blog`;
