@@ -26,4 +26,9 @@ export interface Article {
 	logInfo?: LogInfo;
 	likes?: string [];
 	comments?: string [];
+	draft?: boolean;
+	hide?: boolean;
+	public?: boolean;
+	conditionedLink?: string;
+	conditionedLinkTitle?: string;
 }
