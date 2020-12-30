@@ -28,45 +28,113 @@
 		<div class="row">
 			<div class="col-md-2 d-none mt-5 d-sm-none d-md-block d-lg-block d-xl-block">
 				<div class="sticky-top">
-					<div class="row mt-5">
+					<div class="row mt-5" *ngIf="notNew">
 						<div class="col mt-5">&nbsp;</div>
 					</div>
-					<div class="row mt-5">
-						<div class="col mt-5 text-center">
-							<p *ngIf="updatedAt"><small class="text-primary">Actualizado <b>{{updatedAt | dateAgo}}</b><br /><span *ngIf="updatedBy" class="text-muted">por {{updatedBy}}</span></small></p>
-							<p><small class="text-success">Creado <b>{{createdAt | dateAgo }}</b><br /><span class="text-muted">por {{createdBy}}</span></small></p>
-						</div>
-					</div>
-					<div class="row mb-3" *ngIf="!description.pristine">
-						<div class="col" >
+					<div class="row mb-3" *ngIf="notNew">
+						<div class="col text-center">
+							<h3 class="badge badge-danger" *ngIf="!description.pristine && article.draft">Sin publicar</h3>
+							<h3 class="badge badge-success" *ngIf="!description.pristine && !article.draft">Publicado</h3>
+							<br>
 							<button
-								class="btn btn-sm btn-block"
-								[ngClass]="{'btn-danger': main.value, 'btn-secondary': !main.value}"
-								(click)="toggleMain();"
+							class="btn btn-sm btn-block btn-danger"
+							*ngIf="article.draft && notNew"
+							(click)="publish();"
 							>
-								<i class="fal fa-home-lg-alt"></i> Mostrar en Home
+								<i class="fal fa-signal-stream"></i> Publicar
 							</button>
 						</div>
 					</div>
 					<div class="row mb-3" *ngIf="!description.pristine">
 						<div class="col" >
+							<span
+								class="pointme"
+								(click)="toggleMain();"
+								*ngIf="article.main"
+							>
+								<i class="fal fa-toggle-on fa-2x text-success" style="vertical-align: middle;"></i>&nbsp;
+								<i class="fal fa-home-lg-alt text-success" style="vertical-align: middle;"></i>&nbsp;
+								<small style="vertical-align: middle;">En Home</small>
+							</span>
+							<span
+								class="pointme"
+								(click)="toggleMain();"
+								*ngIf="!article.main"
+							>
+								<i class="fal fa-toggle-off fa-2x" style="vertical-align: middle;"></i>&nbsp;
+								<i class="fal fa-home-lg-alt" style="vertical-align: middle;"></i>&nbsp;
+								<small style="vertical-align: middle;">En blogs</small>
+							</span>
+							<br />
+							<span
+								class="pointme"
+								(click)="public();"
+								*ngIf="article.public"
+							>
+								<i class="fal fa-toggle-on fa-2x text-success" style="vertical-align: middle;"></i>&nbsp;
+								<i class="fal fa-users text-success" style="vertical-align: middle;"></i>&nbsp;
+								<small style="vertical-align: middle;">Público</small>
+							</span>
+							<span
+								class="pointme"
+								(click)="public();"
+								*ngIf="!article.public"
+							>
+								<i class="fal fa-toggle-off fa-2x" style="vertical-align: middle;"></i>&nbsp;
+								<i class="fal fa-users" style="vertical-align: middle;"></i>&nbsp;
+								<small style="vertical-align: middle;">Suscriptores</small>
+							</span>
+							<br />
+							<span
+								class="pointme"
+								(click)="toggleHide();"
+								*ngIf="!article.hide && !article.draft"
+							>
+								<i class="fal fa-toggle-on fa-2x text-success" style="vertical-align: middle;"></i>&nbsp;
+								<i class="fal fa-eye text-success" style="vertical-align: middle;"></i>&nbsp;
+								<small style="vertical-align: middle;">Visible</small>
+							</span>
+							<span
+								class="pointme"
+								(click)="toggleHide();"
+								*ngIf="article.hide && !article.draft"
+							>
+								<i class="fal fa-toggle-off fa-2x" style="vertical-align: middle;"></i>&nbsp;
+								<i class="fal fa-eye-slash text-danger" style="vertical-align: middle;"></i>&nbsp;
+								<small class="text-danger" style="vertical-align: middle;">Oculto</small>
+							</span>
+						</div>
+					</div>
+					<hr *ngIf="notNew">
+					<div class="row mb-3" *ngIf="!description.pristine">
+						<div class="col-12 mt-0 mb-0 px-3 text-muted">
 							<button
 								class="btn btn-sm btn-block btn-success"
 								(click)="getAndSetArticle();"
 							>
 								<i class="fal fa-save"></i> Guardar
 							</button>
-						</div>
-					</div>
-					<div class="row mb-3" *ngIf="preurl">
-						<div class="col-12 mt-0 mb-0 px-3 text-muted">
-							<span
+							<button
+								class="btn btn-sm btn-block btn-primary"
+								(click)="setConditionedLink();"
+							>
+								<i class="fal fa-link"></i> Liga condicionada
+							</button>
+							<button
+								*ngIf="preurl"
 								class="btn btn-sm btn-block btn-primary px-3"
 								(click)="copyMessage();"
 								data-toggle="tooltip"
 								data-placement="top"
 								title="Da clic para copiar"
-							><i class="fal fa-link"></i> Copiar liga de este artículo</span>
+							><i class="fal fa-link"></i> Copiar liga de este artículo</button>
+						</div>
+					</div>
+					<hr *ngIf="notNew">
+					<div class="row" *ngIf="!description.pristine">
+						<div class="col text-center">
+							<small class="text-primary" *ngIf="updatedAt">Actualizado <b>{{updatedAt | dateAgo}}</b><br /><span *ngIf="updatedBy" class="text-muted">por {{updatedBy}}</span></small><br />
+							<small class="text-success">Creado <b>{{createdAt | dateAgo }}</b><br /><span class="text-muted">por {{createdBy}}</span></small><br />
 						</div>
 					</div>
 				</div>

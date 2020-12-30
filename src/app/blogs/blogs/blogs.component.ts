@@ -67,7 +67,9 @@ export class BlogsComponent implements OnInit {
 		Swal.showLoading();
 		this.blogsService.getBlogs().subscribe((data:any) => {
 			this.blogs = [...data];
-			// console.log(this.blogs);
+			console.group('Blogs');
+			console.log(this.blogs);
+			console.groupEnd();
 			setTimeout(() => {
 				Swal.hideLoading();
 				Swal.close();

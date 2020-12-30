@@ -21,7 +21,8 @@ import {
 } from 'ngx-toastr';
 import {
 	Article,
-	LogInfo
+	LogInfo,
+	SupportingServices
 } from '@shared';
 
 declare const $:any;
@@ -33,6 +34,7 @@ declare const $:any;
 })
 export class EditComponent implements OnInit {
 
+	notNew: boolean = false;
 	photos: string[] = [];
 	photoSelected: string;
 	photoId: string;
@@ -61,7 +63,8 @@ export class EditComponent implements OnInit {
 		private fb: FormBuilder,
 		private blogsService: BlogsService,
 		private activatedRoute: ActivatedRoute,
-		private toastr: ToastrService
+		private toastr: ToastrService,
+		private support: SupportingServices
 	) {
 		this.activatedRoute.params.subscribe(params => {
 			if(params['articleid']) this.articleId = params['articleid'];
@@ -93,12 +96,11 @@ export class EditComponent implements OnInit {
 			this.getArticle(this.articleId);
 			this.preurl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/#/pages/blog/${this.articleId}`;
 		}
-		// console.group('ngOnInit')
-		// console.log(this.blogForm);
-		// console.groupEnd();
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip()
-		})
+		$(() => {
+			$('[data-toggle="tooltip"]').tooltip();
+			const tooltips = $('[data-toggle="tooltip"]');
+			this.support.print('Tooltips',tooltips);
+		});
 	}
 
 	copyMessage(){
@@ -125,7 +127,8 @@ export class EditComponent implements OnInit {
 		Swal.showLoading();
 		this.blogsService.getArticle(id).subscribe((res: Article) => {
 			this.article = res;
-			// console.log(this.article);
+			this.support.print('Article',this.article);
+			this.notNew = true;
 			if(this.article.title) {
 				this.title.setValue(this.article.title);
 				this.title.markAsDirty();
@@ -145,6 +148,7 @@ export class EditComponent implements OnInit {
 		}, error => {
 			Swal.hideLoading();
 			Swal.close();
+			console.log(error);
 		});
 	}
 
@@ -155,7 +159,6 @@ export class EditComponent implements OnInit {
 			18
 		).subscribe(data => {
 			if(data.response?.results) {
-				// console.log(data.response);
 				this.photos = data.response.results.map((result:any) => {
 					return {
 						url: result.urls.small,
@@ -166,16 +169,43 @@ export class EditComponent implements OnInit {
 		})
 	}
 
+	setConditionedLink() {
+		if(!this.article.conditionedLink) this.article.conditionedLink = 'https://domain.com/link';
+		if(!this.article.conditionedLinkTitle) this.article.conditionedLinkTitle = 'Obtén Archivo';
+		Swal.fire({
+			icon: 'question',
+			title: 'Liga condicionada',
+			html: `
+				<p>La siguiente liga estará condicionada a que el usuario se registre o esté ya registrado con una cuenta de correo válida<p>
+				<h6>Frase para descarga en botón</h6>
+				<input id="conditionedLinkTitle" class="form-group" type="text" value="${this.article.conditionedLinkTitle}" style="width: 100%;">
+				<h6>Liga</h6>
+				<input id="conditionedLink" class="form-group" type="text" value="${this.article.conditionedLink}" style="width: 100%;">
+			`,
+			showCancelButton: true,
+			confirmButtonText: 'Listo',
+			cancelButtonText: 'Cancelar',
+			customClass: {
+				confirmButton: 'btn btn-success btn-block',
+				cancelButton: 'btn btn-danger btn-block'
+			}
+		}).then((result) => {
+			if(result.isConfirmed) {
+				this.article.conditionedLinkTitle = $('#conditionedLinkTitle').val();
+				this.article.conditionedLink = $('#conditionedLink').val();
+				this.support.print('Conditioned Article',this.article);
+				// this.getAndSetArticle();
+			}
+		});
+	}
 
 	getPhotoSelected(photoid:string) {
 		this.photoId = photoid;
 		this.blogsService.getPhoto(
 			photoid
 		).subscribe((data:any) => {
-			// console.log(data);
 			if(data.response && data.response.urls) {
 				this.photoSelected = data.response.urls.regular;
-				// console.log(this.photoSelected);
 			}
 		});
 	}
@@ -186,23 +216,29 @@ export class EditComponent implements OnInit {
 	}
 
 	getAndSetArticle(){
-		this.article = {
+		const article = {
 			title: this.title.value,
 			description: this.description.value,
 			photo: this.photoId,
 			content: this.contentObject || this.content.value,
 			contentInnerHTML: this.content.value,
-			main: this.main.value
+			main: this.main.value,
+			public: this.article.public,
+			hide: this.article.hide,
+			draft: this.article.draft
 		}
 		this.sending = true;
+		this.support.print('Sending Article',article);
 		this.blogsService.sendArticle(
-			this.article,
+			article,
 			this.articleId
 		).subscribe((res:any) => {
-			console.group('Article');
-			console.log(res);
-			console.groupEnd();
-			if(res._id) this.articleId = res._id;
+			this.support.print('Article response',res);
+			this.notNew = true;
+			if(res._id) {
+				this.articleId = res._id;
+				this.article = res;
+			}
 			if(res.logInfo) this.setLogInfo(res.logInfo);
 			this.sending = false;
 			this.toastr.success(
@@ -223,6 +259,24 @@ export class EditComponent implements OnInit {
 
 	toggleMain() {
 		this.main.setValue(!this.main.value);
+		this.article.main = !this.article.main;
+		this.getAndSetArticle();
+	}
+
+	toggleHide() {
+		this.article.hide = !this.article.hide;
+		this.getAndSetArticle();
+	}
+
+	publish() {
+		if(!this.notNew) return;
+		this.article.draft = false;
+		this.getAndSetArticle();
+	}
+
+	public() {
+		if(!this.notNew) return;
+		this.article.public = !this.article.public;
 		this.getAndSetArticle();
 	}
 
