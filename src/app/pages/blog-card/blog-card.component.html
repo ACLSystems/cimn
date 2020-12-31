@@ -1,0 +1,12 @@
+<div class="card h-100" *ngIf="blog.title">
+	<a [routerLink]="['/pages/blog',blog._id]">
+		<img [src]='"https://source.unsplash.com/" + blog.photo + "/700x400"' class="card-img-top" *ngIf="blog.photo">
+	</a>
+	<div class="card-body">
+		<h4 class="card-title mt-0">
+			<a [routerLink]="['/pages/blog',blog._id]">{{blog.title}}</a>&nbsp;
+			<i class="fas fa-chevron-right text-dark"></i>
+		</h4>
+		<p class="card-text">{{blog.description}}</p>
+	</div>
+</div>

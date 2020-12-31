@@ -28,8 +28,11 @@ import {
 	SharedModule
 } from '@shared';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { BlogComponent } from './blog/blog.component';
+import { SelfRegisterComponent } from './selfregister/selfregister.component';
 import { BlogsComponent } from './blogs/blogs.component';
-import { SelfRegisterComponent } from './selfregister/selfregister.component'
+import { BlogCardComponent } from './blog-card/blog-card.component';
+import { BlogMainCardComponent } from './blog-main-card/blog-main-card.component'
 
 @NgModule({
   declarations: [
@@ -38,8 +41,11 @@ import { SelfRegisterComponent } from './selfregister/selfregister.component'
 		LoginComponent,
 		PrivacyComponent,
 		NotfoundComponent,
+		BlogComponent,
+		SelfRegisterComponent,
 		BlogsComponent,
-		SelfRegisterComponent
+		BlogCardComponent,
+		BlogMainCardComponent
 	],
   imports: [
     CommonModule,

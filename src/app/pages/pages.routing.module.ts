@@ -11,6 +11,9 @@ import {
 	HomeEmpComponent
 } from './home-emp/home-emp.component';
 import {
+	BlogComponent
+} from './blog/blog.component';
+import {
 	BlogsComponent
 } from './blogs/blogs.component';
 import {
@@ -38,7 +41,7 @@ const routes: Routes = [
 		component: BlogsComponent
 	},{
 		path: 'blog/:articleid',
-		component: BlogsComponent
+		component: BlogComponent
 	},{
 		path: 'login',
 		component: LoginComponent

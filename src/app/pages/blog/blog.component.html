@@ -1,0 +1,73 @@
+<section class="pt-0 pb-5">
+	<div class="container ">
+		<div class="row">
+			<div class="col">
+				<h2 class="mt-0">{{title}}</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<p class="lead">{{description}}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<p><small>Por {{createdBy}} -  <span class="text-muted">{{createdAt|dateAgo}}</span></small></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<img
+					[src]="photo"
+					class="img-fluid"
+					>
+				<small
+					*ngIf="photoUser?.name"
+					class="text-muted text-center"
+				>Foto de <a [attr.href]="photoUser.links.html">{{photoUser?.name}}</a></small>
+			</div>
+		</div>
+		<div class="row mb-5">
+			<div class="col">
+				<quill-view-html
+					[content]="content"
+				></quill-view-html>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-auto">
+				<span
+					id="applause"
+					class="pointme"
+					data-toggle="tooltip"
+					data-placement="top"
+					title="Aplaudir"
+					(click)="applause();"
+				>
+					<i class="fal fa-sign-language fa-2x"></i>
+					<span> {{applauses}}</span>
+				</span>
+			</div>
+			<div class="col-auto">
+				<span
+					id="response"
+					class="pointme"
+					data-toggle="tooltip"
+					data-placement="top"
+					title="Comentar"
+				>
+					<i class="fal fa-comment fa-flip-horizontal fa-2x pointme"></i>
+					<span> {{responses}}</span>
+				</span>
+			</div>
+			<div class="col"></div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<p class="lead">Escrito por <span class="text-primary">{{createdBy}}</span>. {{createdAt|dateAgo}}. </p>
+			</div>
+		</div>
+	</div>
+
+</section>

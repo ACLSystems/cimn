@@ -1,73 +1,43 @@
-<section class="pt-0 pb-5">
-	<div class="container ">
-		<div class="row">
-			<div class="col">
-				<h2 class="mt-0">{{title}}</h2>
+<div *ngIf="!loading && blogs.length === 0">
+	<h1>No hay artículos por el momento</h1>
+</div>
+<div *ngIf="!loading && blogs.length > 0">
+	<div *ngFor="let groupOfBlogs of blogs">
+		<section class="pt-5 pb-5">
+			<blog-main-card
+				*ngIf="groupOfBlogs[0] && groupOfBlogs[0].title"
+				[blog]="groupOfBlogs[0]"
+			></blog-main-card>
+		</section>
+		<section class="pt-5 pb-5" *ngIf="groupOfBlogs.length > 1">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-sm-6 mb-4">
+						<blog-card
+							*ngIf="groupOfBlogs[1] && groupOfBlogs[1].title"
+							[blog]="groupOfBlogs[1]"
+						></blog-card>
+					</div>
+					<div class="col-lg-6 col-sm-6 mb-4">
+						<blog-card
+							*ngIf="groupOfBlogs[2] && groupOfBlogs[2].title"
+							[blog]="groupOfBlogs[2]"
+						></blog-card>
+					</div>
+					<div class="col-lg-6 col-sm-6 mb-4">
+						<blog-card
+							*ngIf="groupOfBlogs[3] && groupOfBlogs[3].title"
+							[blog]="groupOfBlogs[3]"
+						></blog-card>
+					</div>
+					<div class="col-lg-6 col-sm-6 mb-4">
+						<blog-card
+							*ngIf="groupOfBlogs[4] && groupOfBlogs[4].title"
+							[blog]="groupOfBlogs[4]"
+						></blog-card>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<p class="lead">{{description}}</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<p><small>Por {{createdBy}} -  <span class="text-muted">{{createdAt|dateAgo}}</span></small></p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<img
-					[src]="photo"
-					class="img-fluid"
-					>
-				<small
-					*ngIf="photoUser?.name"
-					class="text-muted text-center"
-				>Foto de <a [attr.href]="photoUser.links.html">{{photoUser?.name}}</a></small>
-			</div>
-		</div>
-		<div class="row mb-5">
-			<div class="col">
-				<quill-view-html
-					[content]="content"
-				></quill-view-html>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-auto">
-				<span
-					id="applause"
-					class="pointme"
-					data-toggle="tooltip"
-					data-placement="top"
-					title="Aplaudir"
-					(click)="applause();"
-				>
-					<i class="fal fa-sign-language fa-2x"></i>
-					<span> {{applauses}}</span>
-				</span>
-			</div>
-			<div class="col-auto">
-				<span
-					id="response"
-					class="pointme"
-					data-toggle="tooltip"
-					data-placement="top"
-					title="Comentar"
-				>
-					<i class="fal fa-comment fa-flip-horizontal fa-2x pointme"></i>
-					<span> {{responses}}</span>
-				</span>
-			</div>
-			<div class="col"></div>
-		</div>
-		<hr>
-		<div class="row">
-			<div class="col">
-				<p class="lead">Escrito por <span class="text-primary">{{createdBy}}</span>. {{createdAt|dateAgo}}. </p>
-			</div>
-		</div>
+		</section>
 	</div>
-
-</section>
+</div>

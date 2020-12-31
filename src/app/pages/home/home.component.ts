@@ -9,7 +9,8 @@ import {
 	NavigationEnd
 } from '@angular/router';
 import {
-	UserService
+	UserService,
+	SupportingServices
 } from '@shared';
 
 @Component({
@@ -20,12 +21,14 @@ import {
 export class HomeComponent implements OnInit, AfterViewInit {
 
 	private fragment: string;
-	blog: any;
+	blogs: any[];
+	loading: boolean = false;
 
   constructor(
 		private router: Router,
 		private route: ActivatedRoute,
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		private readonly support: SupportingServices
 	) {
 		this.router.events.subscribe(s => {
 			if(s instanceof NavigationEnd) {
@@ -36,6 +39,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 				}
 			}
 		});
+		this.loading = true;
 	}
 
   ngOnInit(): void {
@@ -57,12 +61,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	getMainBlog() {
 		this.userService.getMainPublicBlog().subscribe((data:any) => {
-			console.log(data);
+			this.blogs = [...data];
+			this.support.print('Blogs',this.blogs);
+			this.loading = false;
 		}, error => {
 			if(error.status !== 404) {
 				console.log(error);
 			}
 		})
+	}
+
+	viewBlog(articleid: string) {
+		this.router.navigate(['/pages/blog',articleid]);
 	}
 
 }
